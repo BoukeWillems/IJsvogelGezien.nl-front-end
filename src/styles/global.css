@@ -1,0 +1,37 @@
+
+:root {
+    --primary-color: rgb(81, 158, 193);
+    --secondary-color: rgba(31, 114, 149, 0.57);
+    --accent-color: #f88a4c;
+    --hover-accent-color: #fa5d00;
+    --text-color: #ffffff;
+    --dropdown-background-color: rgba(31, 114, 149, 0.79);
+    --dropdown-hover-color: rgb(31, 114, 149);
+}
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+}
+
+header {
+    height: 60px; /* Stel een vaste hoogte in voor de header en footer */
+}
+
+.content {
+    flex: 1;
+    max-width: 2000px; /* Pas dit aan naar je gewenste maximale breedte */
+    margin: 0 auto; /* Center de content horizontaal */
+    padding: 80px 20px;
+    width: 100%; /* Zorg ervoor dat de content de volledige breedte van de pagina inneemt */
+    box-sizing: border-box;
+}

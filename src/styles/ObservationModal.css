@@ -1,0 +1,182 @@
+.observation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+}
+
+.observation-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 80px;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    overflow-y: auto;
+    height: 950px;
+}
+
+.close-button {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.image-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.observation-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+}
+
+.like-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.like-button .heart-icon {
+    height: 100px;
+    width: 100px;
+    background: url("../assets/heart.png") left;
+    cursor: pointer;
+    position: absolute;
+}
+
+.like-button .heart-icon.liked {
+    animation: like-anim 0.7s steps(28) forwards;
+}
+
+@keyframes like-anim {
+    to {
+        background-position: right;
+    }
+}
+
+.like-button .heart-bg {
+    background: rgba(255, 192, 200, 0);
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 100ms ease;
+}
+
+.like-button .heart-bg:hover {
+    background: rgba(255, 192, 200, 0.7);
+}
+
+.like-button .likes-amount {
+    font-size: 20px;
+    font-family: "Roboto", sans-serif;
+    color: #888;
+    font-weight: 900;
+    margin-left: 6px;
+}
+
+.details-modal {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0 10px;
+    font-size: 12px;
+    color: black;
+}
+
+.comment-section {
+    margin-top: 20px;
+}
+
+.comment-section h3 {
+    margin-bottom: 10px;
+}
+
+.comment-list,
+.reply-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-list li,
+.reply-list li {
+    background: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.comment-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-text {
+    margin-left: 5px;
+}
+
+.reply-button {
+    background: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.comment-input,
+.reply-input {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.comment-input input,
+.reply-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.comment-input button,
+.reply-input button {
+    padding: 10px 20px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reply-list button {
+    background: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+
+.comment-footer {
+
+}

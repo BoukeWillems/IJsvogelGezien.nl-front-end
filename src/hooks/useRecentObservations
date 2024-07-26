@@ -1,0 +1,39 @@
+import { useState, useEffect } from 'react';
+import apiClient from '../config/axiosConfig.jsx';
+import geocode from '../utils/geocode.jsx';
+
+const useRecentObservations = () => {
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchRecentObservations = async () => {
+            try {
+                const response = await apiClient.get('/api/observations/recent');
+                const observations = await Promise.all(response.data.map(async observation => {
+                    const location = await geocode(observation.latitude, observation.longitude);
+                    const photoUrl = `http://localhost:8081/api/observations/uploads/${observation.photoPath.split('/').pop()}`;
+                    return {
+                        ...observation,
+                        location,
+                        photoUrl,
+                    };
+                }));
+                console.log('API response in hook:', observations);
+                setData(observations);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error in hook:', error);
+                setError(error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchRecentObservations();
+    }, []);
+
+    return { data, error, isLoading };
+};
+
+export default useRecentObservations;

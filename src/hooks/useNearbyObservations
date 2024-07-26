@@ -1,0 +1,39 @@
+import { useState, useEffect } from 'react';
+import apiClient from '../config/axiosConfig.jsx';
+import geocode from '../utils/geocode.jsx'; // Importeer de geocode functie
+
+const useNearbyObservations = (userLocation) => {
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (!userLocation) return;
+
+        const fetchNearbyObservations = async () => {
+            try {
+                const response = await apiClient.get(`/api/observations/nearby?lat=${userLocation.latitude}&lon=${userLocation.longitude}`);
+                const observations = await Promise.all(response.data.map(async observation => {
+                    const location = await geocode(observation.latitude, observation.longitude);
+                    return {
+                        ...observation,
+                        location,
+                    };
+                }));
+                console.log('API response in hook (nearby):', observations);
+                setData(observations);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error in hook (nearby):', error);
+                setError(error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchNearbyObservations();
+    }, [userLocation]);
+
+    return { data, error, isLoading };
+};
+
+export default useNearbyObservations;

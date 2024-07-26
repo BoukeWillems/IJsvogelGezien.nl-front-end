@@ -1,0 +1,75 @@
+/*.user-posts-page {*/
+/*    padding: 20px;*/
+/*    max-width: 1200px;*/
+/*    margin: 80px auto 0; !* Added top margin to avoid overlap with header *!*/
+/*    text-align: center;*/
+/*}*/
+
+/*.user-posts-page h1 {*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.posts-container {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: center;*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.polaroid {*/
+/*    position: relative;*/
+/*    width: 300px;*/
+/*    padding: 20px;*/
+/*    background: white;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);*/
+/*    text-align: center;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.polaroid-date-time {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    width: 100%;*/
+/*    padding: 0 10px;*/
+/*    font-size: 12px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.polaroid-date,*/
+/*.polaroid-time {*/
+/*    margin: 5px 0;*/
+/*}*/
+
+/*.polaroid-location {*/
+/*    margin: 10px 0;*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*.polaroid-img {*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*    margin-bottom: 10px;*/
+/*    border: 1px solid #ddd;*/
+/*}*/
+
+/*.polaroid-info {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.polaroid-user {*/
+/*    font-weight: bold;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.polaroid-description {*/
+/*    font-style: italic;*/
+/*    border: 1px solid #ddd;*/
+/*    padding: 10px;*/
+/*    width: 100%;*/
+/*    text-align: left;*/
+/*}*/

@@ -1,0 +1,61 @@
+
+.map-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    margin: 20px auto;
+
+}
+
+.map-filter, .map-legend {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.map-filter {
+    top: 10px;
+    left: 10px;
+}
+
+.map-legend {
+    bottom: 12px;
+}
+
+.map-legend ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.map-legend li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.map-legend .legend-green {
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.map-legend .legend-yellow {
+    width: 10px;
+    height: 10px;
+    background-color: yellow;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.map-legend .legend-red {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    display: inline-block;
+    margin-right: 5px;
+}

@@ -1,0 +1,25 @@
+
+/* Footer Styling */
+.footer {
+    background-color: rgb(81, 158, 193);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    position: relative;
+}
+
+/*.footer-content p {*/
+/*    margin: 5px 0;*/
+/*}*/
+
+.footer-content a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}

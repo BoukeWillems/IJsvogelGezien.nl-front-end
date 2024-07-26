@@ -1,0 +1,88 @@
+/* SearchPage.css */
+
+.search-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.search-page h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.filters input {
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.search-table th, .search-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.search-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.search-table tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.search-table tr:nth-child(even) {
+    background-color: #e9e9e9;
+}
+
+.search-table tr:hover:nth-child(odd) {
+    background-color: #e9e9e9;
+}
+
+.search-table tr:hover:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.photo {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 10px;
+    border: 1px solid #0077b6;
+    background-color: #0077b6;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination button.active {
+    background-color: #005f8a;
+}
+
+.pagination button:hover:not(.active) {
+    background-color: #005f8a;
+}

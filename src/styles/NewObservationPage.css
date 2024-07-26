@@ -1,0 +1,192 @@
+.new-observation-page {
+    padding: 20px;
+    text-align: center;
+}
+
+.new-observation-page h2 {
+    margin-bottom: 40px;
+    font-size: 32px;
+}
+
+.form-and-map {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.polaroid-upload {
+    background-color: white;
+    padding: 20px 30px 30px;
+    box-shadow: 1px 2px 3px black;
+    border-radius: 5px;
+    text-align: left;
+    position: relative;
+    width: 500px; /* Set width to 500px */
+    height: 600px; /* Match the height of the map */
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.date-time {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+}
+
+.date-time label, .date-time input {
+    display: inline-block;
+}
+
+.location {
+    display: flex;
+    flex-direction: column;
+    padding-right: 30px;
+    font-size: 16px;
+}
+
+.photo {
+    margin: 20px 20px 20px 20px;
+    text-align: center;
+}
+
+.photo-label {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.photo-frame {
+    width: 400px;
+    height: 300px;
+    border: 2px dashed rgba(96, 91, 91, 0.79);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.photo-frame label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+.photo-frame label:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.photo input[type="file"] {
+    display: none;
+}
+
+.photo img.preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.username {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.description textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 2px dashed rgba(96, 91, 91, 0.79);
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.upload-button {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #0077b6;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #005f8a;
+}
+
+.map-container {
+    flex: 2;
+    position: relative;
+}
+
+.map {
+    width: 100%;
+    height: 600px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 3px black;
+}
+
+.legend-uploadMap {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.legend h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.legend p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.legend-marker {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.legend-marker.current-location {
+    background: url('public/images/Markers/MarkerOwnLocation.png') no-repeat center center;
+    background-size: contain;
+}
+
+.legend-marker.observation-marker {
+    background: url('public/images/Markers/NewMarker.png') no-repeat center center;
+    background-size: contain;
+}

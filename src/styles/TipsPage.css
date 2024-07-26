@@ -1,0 +1,60 @@
+.tips-page {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgba(0, 119, 182, 0);
+    color: #1f7295;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.section-how-to-photograph {
+    flex-direction: column;
+}
+
+.section-general-tips {
+    flex-direction: row-reverse;
+}
+
+.text {
+    flex: 1;
+}
+
+.section-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    flex: 1;
+}
+
+h2 {
+    color: #0077b6;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+footer {
+    background-color: #0077b6;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}

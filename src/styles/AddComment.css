@@ -1,0 +1,95 @@
+.add-comment {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 90%;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    animation: come-in 1.5s ease-in-out;
+}
+
+
+
+.add-comment .comment-input {
+    position: relative;
+    height: 100px;
+    border: 2px solid #d3d3d3;
+    color: rgba(0, 0, 0, 0.79);
+    border-radius: 10px;
+    padding: 15px 25px;
+    resize: none;
+    scrollbar-width: none;
+}
+
+.add-comment .comment-input::placeholder {
+    color: #333c49;
+}
+
+.add-comment .comment-input::-webkit-scrollbar {
+    width: 0;
+}
+
+.add-comment .comment-input:focus {
+    outline: 1.5px solid #c0c4cc;
+}
+
+.add-comment .send-btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-comment .add-btn {
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 15px 30px;
+    background: #1f7295;
+    border: 0;
+    border-radius: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.add-comment .add-btn:hover,
+.add-comment .add-btn:focus {
+    opacity: 0.65;
+}
+
+@media {
+    .add-comment {
+        width: 600px;
+        flex-direction: row;
+        padding: 25px;
+        gap: 25px;
+    }
+
+
+    .add-comment .comment-input {
+        width: 100%;
+    }
+
+    .add-comment .send-btn-container {
+        align-items: flex-start;
+    }
+
+    .add-comment .send-btn-container .profile-pic {
+        display: none;
+    }
+}
+
+@keyframes come-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    75% {
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
