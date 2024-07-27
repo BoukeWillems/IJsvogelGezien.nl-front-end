@@ -190,3 +190,13 @@
     background: url('public/images/Markers/NewMarker.png') no-repeat center center;
     background-size: contain;
 }
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.location-missing {
+    color: red;
+}

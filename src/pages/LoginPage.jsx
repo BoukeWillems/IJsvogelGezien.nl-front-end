@@ -23,7 +23,7 @@ const LoginPage = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8081/api/auth/signup", {
+            await axios.post("http://localhost:8080/api/auth/signup", {
                 username: signupUsername,
                 email: signupEmail,
                 password: signupPassword,
@@ -37,7 +37,7 @@ const LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8081/api/auth/signin", {
+            const response = await axios.post("http://localhost:8080/api/auth/signin", {
                 username: signinUsername,
                 password: signinPassword,
             });

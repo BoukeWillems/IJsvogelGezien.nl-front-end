@@ -1,26 +1,27 @@
 import { MapContainer, TileLayer, Marker, Popup, LayersControl, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../styles/NewObservationPage.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import L from 'leaflet';
 import useUserLocation from '../hooks/useUserLocation';
 import axios from 'axios';
+import SuccessModal from '../components/SuccessModal';
+import { useNavigate } from 'react-router-dom';
 
 const { BaseLayer } = LayersControl;
 
-// Define custom icons
 const currentLocationIcon = new L.Icon({
     iconUrl: '/images/Markers/MarkerOwnLocation.png',
-    iconSize: [40, 40], // Adjusted size
-    iconAnchor: [20, 40], // Center the icon horizontally
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
     popupAnchor: [0, -40],
     shadowSize: [41, 41]
 });
 
 const observationMarkerIcon = new L.Icon({
     iconUrl: '/images/Markers/NewMarker.png',
-    iconSize: [40, 40], // Adjusted size
-    iconAnchor: [20, 40], // Center the icon horizontally
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
     popupAnchor: [0, -40],
     shadowSize: [41, 41]
 });
@@ -38,8 +39,12 @@ const NewObservationPage = () => {
         location: ''
     });
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [errorMessages, setErrorMessages] = useState({});
+    const navigate = useNavigate();
+    const formRef = useRef(null);
+
     useEffect(() => {
-        // Set the username here, if it's available from your authentication context or hook
         const fetchUsername = async () => {
             try {
                 const response = await axios.get('/api/auth/user'); // Change this to your auth endpoint
@@ -63,7 +68,25 @@ const NewObservationPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!formRef.current.checkValidity()) {
+            formRef.current.reportValidity();
+            return;
+        }
+
         const { description, photo, date, time, latitude, longitude } = formData;
+        const newErrorMessages = {};
+
+        // Validate the form fields
+        if (!description) newErrorMessages.description = 'Beschrijving is verplicht.';
+        if (!photo) newErrorMessages.photo = 'Foto is verplicht.';
+        if (!date) newErrorMessages.date = 'Datum is verplicht.';
+        if (!time) newErrorMessages.time = 'Tijd is verplicht.';
+
+        if (Object.keys(newErrorMessages).length > 0) {
+            setErrorMessages(newErrorMessages);
+            return;
+        }
+
         const observationDate = `${date}T${time}:00`; // Combine date and time
 
         const formDataToSend = new FormData();
@@ -74,15 +97,18 @@ const NewObservationPage = () => {
         formDataToSend.append('photo', photo);
 
         try {
-            const response = await axios.post('http://localhost:8081/api/observations/upload', formDataToSend, {
+            const response = await axios.post('http://localhost:8080/api/observations/upload', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
             console.log('Observation uploaded:', response.data);
+            setIsModalOpen(true); // Show modal upon successful upload
+            setErrorMessages({}); // Clear any previous error messages
         } catch (error) {
             console.error('Error uploading observation:', error);
+            setErrorMessages({ upload: 'Er is een fout opgetreden bij het uploaden van de waarneming. Probeer het opnieuw.' });
         }
     };
 
@@ -127,12 +153,30 @@ const NewObservationPage = () => {
         );
     };
 
+    const handleUploadAnother = () => {
+        setIsModalOpen(false);
+        setFormData({
+            description: '',
+            photo: null,
+            date: '',
+            time: '',
+            username: formData.username,
+            latitude: null,
+            longitude: null,
+            location: ''
+        });
+    };
+
+    const handleGoHome = () => {
+        navigate('/Home');
+    };
+
     return (
         <div className="new-observation-page">
             <h2>Nieuwe Waarneming Toevoegen</h2>
             <div className="form-and-map">
                 <div className="form-container">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} ref={formRef}>
                         <div className="polaroid-upload">
                             <div className="details">
                                 <div className="date-time">
@@ -145,6 +189,7 @@ const NewObservationPage = () => {
                                         onChange={handleInputChange}
                                         required
                                     />
+                                    {errorMessages.date && <p className="error-message">{errorMessages.date}</p>}
                                     <label htmlFor="time">Tijd</label>
                                     <input
                                         type="time"
@@ -154,9 +199,12 @@ const NewObservationPage = () => {
                                         onChange={handleInputChange}
                                         required
                                     />
+                                    {errorMessages.time && <p className="error-message">{errorMessages.time}</p>}
                                 </div>
                                 <div className="location">
-                                    <p>Locatie: {formData.location || 'Klik op de kaart'}</p>
+                                    <p className={!formData.latitude && !formData.longitude ? "location-missing" : ""}>
+                                        Locatie: {formData.location || 'Klik op de kaart'}
+                                    </p>
                                 </div>
                             </div>
                             <div className="photo">
@@ -179,6 +227,7 @@ const NewObservationPage = () => {
                                         required
                                         className="photo-input"
                                     />
+                                    {errorMessages.photo && <p className="error-message">{errorMessages.photo}</p>}
                                 </div>
                             </div>
                             <div className="username">
@@ -194,10 +243,12 @@ const NewObservationPage = () => {
                                     placeholder="Voer hier een beschrijving van je waarneming in..."
                                     required
                                 />
+                                {errorMessages.description && <p className="error-message">{errorMessages.description}</p>}
                             </div>
                         </div>
                         <button type="submit" className="upload-button">Uploaden</button>
                     </form>
+                    {errorMessages.upload && <p className="error-message">{errorMessages.upload}</p>}
                 </div>
 
                 <div className="map-container">
@@ -237,6 +288,13 @@ const NewObservationPage = () => {
                     )}
                 </div>
             </div>
+
+            <SuccessModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onUploadAnother={handleUploadAnother}
+                onGoHome={handleGoHome}
+            />
         </div>
     );
 };

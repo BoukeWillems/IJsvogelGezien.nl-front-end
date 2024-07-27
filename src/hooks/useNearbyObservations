@@ -1,39 +1,77 @@
 import { useState, useEffect } from 'react';
-import apiClient from '../config/axiosConfig.jsx';
-import geocode from '../utils/geocode.jsx'; // Importeer de geocode functie
+import axios from 'axios';
+import { throttle } from 'throttle-debounce';
+import geocode from '../utils/GeoCode';
+import { haversineDistance } from '../utils/haversine';
 
 const useNearbyObservations = (userLocation) => {
-    const [data, setData] = useState([]);
+    const [observations, setObservations] = useState([]);
+    const [sortedObservations, setSortedObservations] = useState([]);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (!userLocation) return;
+        const fetchObservations = async () => {
+            if (!userLocation) {
+                setIsLoading(false);
+                return;
+            }
 
-        const fetchNearbyObservations = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError(new Error('Token is missing'));
+                setIsLoading(false);
+                return;
+            }
+
             try {
-                const response = await apiClient.get(`/api/observations/nearby?lat=${userLocation.latitude}&lon=${userLocation.longitude}`);
-                const observations = await Promise.all(response.data.map(async observation => {
-                    const location = await geocode(observation.latitude, observation.longitude);
+                const response = await axios.get('http://localhost:8080/api/observations/radius', {
+                    params: {
+                        latitude: userLocation.latitude,
+                        longitude: userLocation.longitude,
+                        radius: 25 // Specify the radius parameter
+                    },
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const throttleGeocode = throttle(200, async (latitude, longitude) => await geocode(latitude, longitude));
+
+                const observations = await Promise.all(response.data.map(async (observation) => {
+                    if (!observation.latitude || !observation.longitude) return null; // Validate latitude and longitude
+                    const location = await throttleGeocode(observation.latitude, observation.longitude);
+                    const photoUrl = `http://localhost:8080/api/observations/uploads/${observation.photoPath.split('/').pop()}`;
                     return {
                         ...observation,
                         location,
+                        photoUrl,
                     };
                 }));
-                console.log('API response in hook (nearby):', observations);
-                setData(observations);
+
+                // Filter out any null values
+                const validObservations = observations.filter(obs => obs !== null);
+
+                // Sort by distance to user location
+                const sortedByDistance = validObservations.sort((a, b) => {
+                    const distanceA = haversineDistance(userLocation, { latitude: a.latitude, longitude: a.longitude });
+                    const distanceB = haversineDistance(userLocation, { latitude: b.latitude, longitude: b.longitude });
+                    return distanceA - distanceB;
+                });
+
+                setObservations(validObservations);
+                setSortedObservations(sortedByDistance.slice(0, 5)); // Take top 5 closest observations for gallery
                 setIsLoading(false);
-            } catch (error) {
-                console.error('Error in hook (nearby):', error);
-                setError(error);
+            } catch (err) {
+                setError(err);
                 setIsLoading(false);
             }
         };
 
-        fetchNearbyObservations();
+        fetchObservations();
     }, [userLocation]);
 
-    return { data, error, isLoading };
+    return { data: observations, sortedData: sortedObservations, error, isLoading };
 };
 
 export default useNearbyObservations;

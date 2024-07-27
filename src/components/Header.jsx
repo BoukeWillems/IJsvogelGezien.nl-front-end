@@ -39,7 +39,7 @@ const Header = () => {
                         <Link to="/tips" className="nav-link">Tips</Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/user-posts" className="nav-link">Mijn Waarnemingen</Link>
+                        <Link to="/ProfilePage" className="nav-link">Mijn Waarnemingen</Link>
                     </li>
                     <li className="nav-item user-menu">
                         <FontAwesomeIcon icon={faUser} className="icon" onClick={toggleDropdown} />

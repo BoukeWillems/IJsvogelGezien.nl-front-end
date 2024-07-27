@@ -4,7 +4,7 @@ import LoginPage from './pages/LoginPage';
 import MapPage from './pages/MapPage';
 import NewObservationPage from './pages/NewObservationPage';
 import SearchPage from './pages/SearchPage';
-import UserPostsPage from './pages/UserPostsPage';
+import ProfilePage from './pages/ProfilePage.jsx';
 import TipsPage from './pages/TipsPage';
 import SettingsPage from './pages/SettingsPage';
 import Header from './components/Header';
@@ -32,7 +32,7 @@ const App = () => {
                         <Route path="/map" element={<MapPage />} />
                         <Route path="/new-observation" element={<NewObservationPage />} />
                         <Route path="/search" element={<SearchPage />} />
-                        <Route path="/user-posts" element={<UserPostsPage />} />
+                        <Route path="/ProfilePage" element={<ProfilePage />} />
                         <Route path="/tips" element={<TipsPage />} />
                         <Route path="/settings" element={<SettingsPage />} />
                         <Route path="/account-settings" element={<AccountSettingsPage userId={userId} />} />

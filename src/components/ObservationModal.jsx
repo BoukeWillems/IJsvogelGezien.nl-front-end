@@ -19,7 +19,7 @@ const ObservationModal = ({ isOpen, onRequestClose, observation }) => {
 
     const fetchIsLiked = async (observationId) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/likes/isLiked?observationId=${observationId}`, {
+            const response = await fetch(`http://localhost:8080/api/likes/isLiked?observationId=${observationId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -32,7 +32,7 @@ const ObservationModal = ({ isOpen, onRequestClose, observation }) => {
 
     const handleLikeButtonClick = async () => {
         try {
-            const response = await fetch(`http://localhost:8081/api/likes/${isLiked ? 'unlike' : 'like'}`, {
+            const response = await fetch(`http://localhost:8080/api/likes/${isLiked ? 'unlike' : 'like'}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ const ObservationModal = ({ isOpen, onRequestClose, observation }) => {
 
     if (!observation) return null;
 
-    const photoUrl = `http://localhost:8081/uploads/${observation.photoPath.split('/').pop()}`;
+    const photoUrl = `http://localhost:8080/uploads/${observation.photoPath.split('/').pop()}`;
 
     return (
         <Modal

@@ -1,0 +1,28 @@
+.profile-page {
+    padding: 20px;
+}
+
+#user-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.pic {
+    width: 200px;
+    cursor: pointer;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+}
+
+.details {
+    margin: 5px 0;
+}
+
+.observation-caption {
+    font-size: 14px;
+    color: #333;
+}

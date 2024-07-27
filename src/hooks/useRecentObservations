@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../config/axiosConfig.jsx';
-import geocode from '../utils/geocode.jsx';
+import geocode from '../utils/GeoCode';
 
 const useRecentObservations = () => {
     const [data, setData] = useState([]);
@@ -13,7 +13,7 @@ const useRecentObservations = () => {
                 const response = await apiClient.get('/api/observations/recent');
                 const observations = await Promise.all(response.data.map(async observation => {
                     const location = await geocode(observation.latitude, observation.longitude);
-                    const photoUrl = `http://localhost:8081/api/observations/uploads/${observation.photoPath.split('/').pop()}`;
+                    const photoUrl = `http://localhost:8080/api/observations/uploads/${observation.photoPath.split('/').pop()}`;
                     return {
                         ...observation,
                         location,

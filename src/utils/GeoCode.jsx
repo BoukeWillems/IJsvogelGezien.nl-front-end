@@ -1,22 +1,26 @@
-import axios from 'axios';
+import L from 'leaflet';
+import 'leaflet-control-geocoder';
 
-const geocode = async (latitude, longitude) => {
-    try {
-        const response = await axios.get(`https://nominatim.openstreetmap.org/reverse`, {
-            params: {
-                format: 'json',
-                lat: latitude,
-                lon: longitude,
+const geocode = async (lat, lon) => {
+    return new Promise((resolve, reject) => {
+        const geocoder = L.Control.Geocoder.nominatim();
+        geocoder.reverse(
+            { lat, lng: lon },
+            18,
+            (results) => {
+                if (results.length > 0) {
+                    const address = results[0].properties.address;
+                    const placeName = address.city || address.town || address.village || address.hamlet || address.neighbourhood || 'Unknown location';
+                    resolve(placeName);
+                } else {
+                    resolve(`${lat}, ${lon}`);
+                }
+            },
+            (err) => {
+                reject(err);
             }
-        });
-
-        const address = response.data.address;
-        const location = address.city || address.town || address.village || address.hamlet || address.locality || address.state || address.country;
-        return location || `${latitude}, ${longitude}`;
-    } catch (error) {
-        console.error('Geocoding error:', error);
-        return `${latitude}, ${longitude}`;
-    }
+        );
+    });
 };
 
 export default geocode;

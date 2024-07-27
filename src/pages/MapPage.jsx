@@ -1,48 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useObservationMarkers from '../hooks/useObservationMarkers';
-import useMarkerPopup from '../hooks/useMarkerPopup';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import useUserLocation from '../hooks/useUserLocation';
+import ObservationMap from '../components/ObservationMap';
+import ObservationModal from '../components/ObservationModal';
 import '../styles/MapPage.css';
 
 const MapPage = () => {
-    const markers = useObservationMarkers();
-    const { selectedMarker, isPopupVisible, showPopup, hidePopup } = useMarkerPopup();
+    const { data: userLocation, error: locationError, isLoading: locationLoading } = useUserLocation();
+    const { markers, error: markersError, isLoading: markersLoading } = useObservationMarkers();
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedObservation, setSelectedObservation] = useState(null);
+
+    const openModal = (observation) => {
+        setSelectedObservation(observation);
+        setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedObservation(null);
+        setModalIsOpen(false);
+    };
+
+    console.log('Markers:', markers); // Log markers to check the structure
 
     return (
         <div className="map-page">
-            <h1>Observations Map</h1>
-            <MapContainer center={[52.3676, 4.9041]} zoom={7} style={{ height: '600px', width: '100%' }}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            <h1>Kaart met alle waarnemingen in Nederland</h1>
+            {locationLoading && <p>Locatie wordt geladen...</p>}
+            {locationError && <p>Er is een fout opgetreden bij het ophalen van uw locatie: {locationError.message}</p>}
+            {markersLoading && <p>Waarnemingen worden geladen...</p>}
+            {markersError && <p>Er is een fout opgetreden bij het ophalen van de waarnemingen: {markersError.message}</p>}
+            {!locationLoading && !markersLoading && (
+                <ObservationMap
+                    center={[52.3676, 4.9041]} // Default center (Amsterdam)
+                    zoom={7} // Default zoom level
+                    markers={markers}
+                    onMarkerClick={openModal}
+                    userLocation={userLocation}
                 />
-                {markers.map((marker, index) => (
-                    <Marker
-                        key={index}
-                        position={[marker.lat, marker.lon]}
-                        eventHandlers={{
-                            click: () => showPopup(marker),
-                        }}
-                    />
-                ))}
-                {selectedMarker && isPopupVisible && (
-                    <Popup
-                        position={[selectedMarker.lat, selectedMarker.lon]}
-                        onClose={hidePopup}
-                    >
-                        <div className="popup-content">
-                            <h2>{selectedMarker.description}</h2>
-                            <p>{selectedMarker.date}</p>
-                            <p>{selectedMarker.time}</p>
-                            <div className="popup-comments">
-                                {/* Comments section can be implemented here */}
-                            </div>
-                        </div>
-                    </Popup>
-                )}
-            </MapContainer>
-            {isPopupVisible && <div className="overlay" onClick={hidePopup}></div>}
+            )}
+            <ObservationModal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                observation={selectedObservation}
+            />
         </div>
     );
 };
