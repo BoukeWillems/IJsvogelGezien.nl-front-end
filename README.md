@@ -1,3 +1,15 @@
+Eindopdracht bootcamp full-stack developer
+
+Onderdeel: Front-end
+
+IJsvogelGezien.nl Een webapplicatie om waarnemingen van IJsvogels te delen.
+
+
+
+
+
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
