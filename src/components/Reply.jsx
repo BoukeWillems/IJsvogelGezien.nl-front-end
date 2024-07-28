@@ -1,9 +1,8 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import "../styles/Comment.css";
+import '../styles/Reply.css'
 import AddComment from "./AddComment";
 import DeleteModal from "./DeleteModal";
-import { CommentHeader, CommentFooter, } from "./commentParts";
+import { CommentHeader, CommentFooter } from "./commentParts";
 
 const Reply = ({
                    commentData,
@@ -14,32 +13,12 @@ const Reply = ({
                }) => {
     const [replying, setReplying] = useState(false);
     const [editing, setEditing] = useState(false);
-    const [content, setContent] = useState(commentData.content);
+    const [content, setContent] = useState(commentData.text);
     const [deleting, setDeleting] = useState(false);
 
     const addReply = (newReply) => {
         addNewReply(newReply);
         setReplying(false);
-    };
-
-    const commentContent = () => {
-        const text = commentData.content.trim().split(" ");
-        const firstWord = text.shift().split(",");
-
-        return !editing ? (
-            <div className="comment-content">
-                <span className="replyingTo">{firstWord}</span>
-                {text.join(" ")}
-            </div>
-        ) : (
-            <textarea
-                className="content-edit-box"
-                value={content}
-                onChange={(e) => {
-                    setContent(e.target.value);
-                }}
-            />
-        );
     };
 
     const updateComment = () => {
@@ -53,7 +32,11 @@ const Reply = ({
     };
 
     return (
-        <div className={`comment-container ${commentData.replies.length > 0 ? "gap" : ""}`}>
+        <div
+            className={`comment-container ${
+                commentData.replies.length ? "gap" : ""
+            }`}
+        >
             <div className="comment">
                 <div className="comment--body">
                     <CommentHeader
@@ -63,10 +46,21 @@ const Reply = ({
                         setDeleteModalState={setDeleteModalState}
                         setEditing={setEditing}
                     />
-                    {commentContent()}
+
+                    {!editing ? (
+                        <div className="comment-content">{commentData.text}</div>
+                    ) : (
+                        <textarea
+                            className="content-edit-box"
+                            value={content}
+                            onChange={(e) => {
+                                setContent(e.target.value);
+                            }}
+                        />
+                    )}
                     {editing && (
                         <button className="update-btn" onClick={updateComment}>
-                            Update
+                            update
                         </button>
                     )}
                 </div>
@@ -79,9 +73,10 @@ const Reply = ({
                     type="reply"
                 />
             </div>
+
             {replying && (
                 <AddComment
-                    buttonValue={"Reply"}
+                    buttonValue={"reply"}
                     addComments={addReply}
                     replyingTo={commentData.username}
                 />
@@ -89,6 +84,7 @@ const Reply = ({
             {commentData.replies.map((reply) => (
                 <Reply key={reply.id} commentData={reply} addReply={addReply} />
             ))}
+
             {deleting && (
                 <DeleteModal
                     setDeleting={setDeleting}
@@ -98,21 +94,6 @@ const Reply = ({
             )}
         </div>
     );
-};
-
-Reply.propTypes = {
-    commentData: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        content: PropTypes.string.isRequired,
-        createdAt: PropTypes.instanceOf(Date).isRequired,
-        username: PropTypes.string.isRequired,
-        currentUser: PropTypes.bool.isRequired,
-        replies: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }).isRequired,
-    addNewReply: PropTypes.func.isRequired,
-    editComment: PropTypes.func.isRequired,
-    deleteComment: PropTypes.func.isRequired,
-    setDeleteModalState: PropTypes.func.isRequired,
 };
 
 export default Reply;

@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import "../styles/DeleteModal.css";
+import '../styles/DeleteModal.css'
 
 const DeleteModal = ({ setDeleting, deleteComment, setDeleteModalState }) => {
     const cancelDelete = () => {
@@ -15,28 +14,22 @@ const DeleteModal = ({ setDeleting, deleteComment, setDeleteModalState }) => {
     return (
         <div className="delete-confirmation-wrapper">
             <div className="delete-container">
-                <div className="title">Verwijder Reactie</div>
+                <div className="title">Delete comment</div>
                 <div className="confirmation-message">
-                    Weet je zeker dat je deze reactie wilt verwijderen? Het verwijderen van een
-                    reactie kan niet ongedaan worden.
+                    Are you sure you want to delete this comment? This will remove the
+                    comment and can't be undone.
                 </div>
                 <div className="btn-container">
                     <button className="cancel-btn" onClick={cancelDelete}>
-                        Annuleer
+                        No, cancel
                     </button>
                     <button className="delete-btn" onClick={deleteBtnClick}>
-                        Verwijderen
+                        Yes, delete
                     </button>
                 </div>
             </div>
         </div>
     );
-};
-
-DeleteModal.propTypes = {
-    setDeleting: PropTypes.func.isRequired,
-    deleteComment: PropTypes.func.isRequired,
-    setDeleteModalState: PropTypes.func.isRequired,
 };
 
 export default DeleteModal;

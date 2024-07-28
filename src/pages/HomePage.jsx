@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import useNearbyObservations from '../hooks/useNearbyObservations';
 import useUserLocation from '../hooks/useUserLocation';
 import useRecentObservations from '../hooks/useRecentObservations';

@@ -31,7 +31,6 @@ header {
     flex: 1;
     max-width: 2000px; /* Pas dit aan naar je gewenste maximale breedte */
     margin: 0 auto; /* Center de content horizontaal */
-    padding: 80px 20px;
     width: 100%; /* Zorg ervoor dat de content de volledige breedte van de pagina inneemt */
     box-sizing: border-box;
 }

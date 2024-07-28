@@ -1,9 +1,9 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import "../styles/Comment.css";
+import '../styles/Comment.css'
 import AddComment from "./AddComment";
 import ReplyContainer from "./ReplyContainer";
-import { CommentHeader, CommentFooter } from "./commentParts";
+import DeleteModal from "./DeleteModal";
+import { CommentHeader, CommentFooter } from "../components/commentParts";
 
 const Comment = ({
                      commentData,
@@ -11,11 +11,11 @@ const Comment = ({
                      editComment,
                      commentDelete,
                      setDeleteModalState,
-                     currentUser
                  }) => {
     const [replying, setReplying] = useState(false);
     const [editing, setEditing] = useState(false);
-    const [content, setContent] = useState(commentData.content);
+    const [content, setContent] = useState(commentData.text);
+    const [deleting, setDeleting] = useState(false);
 
     const addReply = (newReply) => {
         const replies = [...commentData.replies, newReply];
@@ -24,32 +24,35 @@ const Comment = ({
     };
 
     const updateComment = () => {
-        editComment(content, commentData.id);
+        editComment(content, commentData.id, "comment");
         setEditing(false);
     };
 
-    const deleteComment = (id) => {
-        commentDelete(id);
+    const deleteComment = (id, type) => {
+        const finalType = type !== undefined ? type : "comment";
+        const finalId = id !== undefined ? id : commentData.id;
+        commentDelete(finalId, finalType, commentData.id);
+        setDeleting(false);
     };
-
-    const canEditOrDelete = currentUser && (currentUser.username === commentData.username || currentUser.role === 'admin');
 
     return (
         <div
             className={`comment-container ${
-                commentData.replies.length > 0 ? "reply-container-gap" : ""
+                commentData.replies.length ? "reply-container-gap" : ""
             }`}
         >
             <div className="comment">
                 <div className="comment--body">
                     <CommentHeader
                         commentData={commentData}
+                        replying={replying}
                         setReplying={setReplying}
+                        setDeleting={setDeleting}
                         setDeleteModalState={setDeleteModalState}
-                        canEditOrDelete={canEditOrDelete}
+                        setEditing={setEditing}
                     />
                     {!editing ? (
-                        <div className="comment-content">{commentData.content}</div>
+                        <div className="comment-content">{commentData.text}</div>
                     ) : (
                         <textarea
                             className="content-edit-box"
@@ -61,19 +64,23 @@ const Comment = ({
                     )}
                     {editing && (
                         <button className="update-btn" onClick={updateComment}>
-                            Update
+                            update
                         </button>
                     )}
                 </div>
                 <CommentFooter
+                    commentData={commentData}
                     setReplying={setReplying}
+                    setDeleting={setDeleting}
                     setDeleteModalState={setDeleteModalState}
                     setEditing={setEditing}
+                    type="comment"
                 />
             </div>
+
             {replying && (
                 <AddComment
-                    buttonValue={"Reply"}
+                    buttonValue={"reply"}
                     addComments={addReply}
                     replyingTo={commentData.username}
                 />
@@ -87,27 +94,16 @@ const Comment = ({
                     setDeleteModalState={setDeleteModalState}
                 />
             )}
+
+            {deleting && (
+                <DeleteModal
+                    setDeleting={setDeleting}
+                    deleteComment={deleteComment}
+                    setDeleteModalState={setDeleteModalState}
+                />
+            )}
         </div>
     );
-};
-
-Comment.propTypes = {
-    commentData: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        content: PropTypes.string.isRequired,
-        createdAt: PropTypes.instanceOf(Date).isRequired,
-        username: PropTypes.string.isRequired,
-        currentUser: PropTypes.bool.isRequired,
-        replies: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }).isRequired,
-    updateReplies: PropTypes.func.isRequired,
-    editComment: PropTypes.func.isRequired,
-    commentDelete: PropTypes.func.isRequired,
-    setDeleteModalState: PropTypes.func.isRequired,
-    currentUser: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        role: PropTypes.string.isRequired,
-    }).isRequired,
 };
 
 export default Comment;

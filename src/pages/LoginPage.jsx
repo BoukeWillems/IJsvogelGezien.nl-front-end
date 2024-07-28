@@ -2,6 +2,7 @@ import '../styles/LoginPage.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import logo from '../assets/Logo.png';
 
 const LoginPage = () => {
     const [active, setActive] = useState(false);
@@ -51,6 +52,7 @@ const LoginPage = () => {
 
     return (
         <div className="login-body">
+            <img src={logo} alt="IJsvogelGezien.nl Logo" className="logo" />
             <div className={`container ${active ? 'active' : ''}`} id="container">
                 <div className="form-container sign-up">
                     <form onSubmit={handleRegister}>
