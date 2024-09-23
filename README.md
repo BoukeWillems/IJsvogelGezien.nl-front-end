@@ -1,11 +1,3 @@
-Eindopdracht bootcamp full-stack developer
-
-Onderdeel: Front-end
-
-IJsvogelGezien.nl Een webapplicatie om waarnemingen van IJsvogels te delen.
-
-
-
 
 
 
